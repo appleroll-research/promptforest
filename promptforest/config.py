@@ -6,9 +6,8 @@ from pathlib import Path
 PACKAGE_DIR = os.path.dirname(os.path.abspath(__file__))
 XGB_MODEL_PATH = os.path.join(PACKAGE_DIR, 'xgboost', 'xgb_model.pkl')
 
-# User-data paths (for heavy models)
-USER_DATA_DIR = Path.home() / ".promptforest"
-MODELS_DIR = USER_DATA_DIR / "models"
+# Internal Models (packaged with the library)
+MODELS_DIR = Path(PACKAGE_DIR) / "tier_1" / "models_ensemble"
 
 DEFAULT_CONFIG = {
     "models": [
@@ -21,12 +20,10 @@ DEFAULT_CONFIG = {
     ],
     "settings": {
         "device": "auto",  # Options: auto, cuda, mps, cpu
-        "fp32": False,
-        "quantisation": True # Use 8-bit quantization on CPU
+        "fp16": True       # Use FP16 precision on GPU/MPS (only applies if device is GPU/MPS)
     },
     "logging": {
-        "stats": True,
-        "verbose": False
+        "stats": True
     }
 }
 

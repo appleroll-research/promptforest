@@ -39,9 +39,7 @@ class HFModel(ModelInference):
         self.malicious_idx = 1
         
         self.device_name = get_device(settings.get('device', 'auto'))
-        self.fp32 = settings.get('fp32', False)
-        self.quantisation = settings.get('quantisation', True)
-        self.use_fp16 = (self.device_name in ['cuda', 'mps']) and (not self.fp32)
+        self.fp16 = settings.get('fp16', True)
         
         self._load()
 
@@ -54,21 +52,11 @@ class HFModel(ModelInference):
             self.tokenizer = AutoTokenizer.from_pretrained(self.path)
             self.model = AutoModelForSequenceClassification.from_pretrained(self.path)
             
-            if self.device_name == 'cpu':
-                if self.quantisation:
-                    self.model.to('cpu')
-                    self.model = torch.quantization.quantize_dynamic(
-                        self.model, {torch.nn.Linear}, dtype=torch.qint8
-                    )
-                    self.device = 'cpu'
-                else:
-                    self.model.to('cpu')
-                    self.device = 'cpu'
-            else:
-                self.model.to(self.device_name)
-                if self.use_fp16:
-                    self.model.half()
-                self.device = self.device_name
+            self.model.to(self.device_name)
+            if self.device_name in ['cuda', 'mps'] and self.fp16:
+                print("Using FP16 precision for model " + self.model.config._name_or_path)
+                self.model.half()
+            self.device = self.device_name
                 
             self.model.eval()
             self._determine_label_map()
@@ -118,8 +106,7 @@ class XGBoostModel(ModelInference):
         self.embedder = None
         
         self.device_name = get_device(settings.get('device', 'auto'))
-        self.fp32 = settings.get('fp32', False)
-        self.use_fp16 = (self.device_name in ['cuda', 'mps']) and (not self.fp32)
+        self.fp16 = settings.get('fp16', True)
         
         self._load()
 
@@ -132,12 +119,13 @@ class XGBoostModel(ModelInference):
             if ST_PATH.exists():
                 self.embedder = SentenceTransformer(str(ST_PATH))
             else:
+                print("Cannot find local SentenceTransformer model. Downloading...")
                 # Fallback to download default if local cache missing
                 self.embedder = SentenceTransformer('all-MiniLM-L6-v2')
             
             if self.device_name in ['cuda', 'mps']:
                 self.embedder.to(self.device_name)
-                if self.use_fp16:
+                if self.fp16:
                    try:
                        self.embedder[0].auto_model.half() 
                    except:
