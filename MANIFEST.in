@@ -1,0 +1,2 @@
+include promptforest/xgboost/*.pkl
+include promptforest/xgboost/*.csv
