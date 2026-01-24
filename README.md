@@ -1,9 +1,40 @@
-# PromptForest
+# PromptForest - Fast and Reliable Injection Detector Ensemble
 
 PromptForest is a prompt injection detector ensemble focused on real-world latency and reliability.
 
+We rely on an ensemble of small, accurate prompt detection models using a voting system to generate accurate detections. 
+
+By comparing predictions across multiple models, the system can flag prompts where models disagree, helping to reduce the risk of false negatives.
+
+This discrepancy score enables downstream workflows such as:
+- Human-in-the-loop review for high-risk or ambiguous prompts  
+- Adaptive throttling or alerting in production systems  
+- Continuous monitoring and model improvement  
+
+
+## Supported Models
+
+| Provider      | Model Name                 |
+| ------------- | ----------------------------------------- |
+| **Meta**      | Llama Prompt Guard 86M (Built with Llama) |
+| **ProtectAI** | DebertaV3 Prompt Injection Finetune       |
+| **Deepset**   | DebertaV3-base Injection Finetune         |
+| **Katanemo**  | Arch-Guard                                |
+| **Appleroll** | PromptForest-XGBoost                      |
+
+## Performance
+**Request Latency** \
+Best Case: 50ms \
+Worst Case: 200ms
+
+**Accuracy** \
+Preliminary results indicate ensemble performance is at least as good as any individual model. Extensive benchmarking is ongoing.
+
+
 ## Quick Start
 To use PromptForest, simply install the pip package and serve it at a port of your choice. It should automatically start downloading the default model ensemble.
+
+Gated models are downloaded through our own [ensemble github respository](https://github.com/appleroll-research/promptforest-model-ensemble) and are released in accordance to their terms and conditions.
 
 ```bash
 pip install promptforest
@@ -21,7 +52,5 @@ This project has not yet been extensively validated against real-world, large-sc
 
 PromptForest is intended to be used as one layer in a defense-in-depth strategy, alongside input validation, output filtering, access control, sandboxing, monitoring, and human oversight.
 
-Use at your own risk.
-
 ## License
-This project is under the Apache license.
+This project is licensed under Apache 2.0. Third-party models and weights are redistributed under their original licenses (see THIRD_PARTY_LICENSES folder for details). Users must comply with these licenses.

@@ -14,3 +14,5 @@ curlinator.sh
 # models
 promptforest/tier_1/models_ensemble
 config.yaml
+
+build/
