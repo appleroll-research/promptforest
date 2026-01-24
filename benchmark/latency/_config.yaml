@@ -1,0 +1,28 @@
+# Config for latency benchmark
+models:
+  # Enable or disable specific models
+  - name: llama_guard
+    enabled: true
+    
+  - name: protectai
+    enabled: true
+    
+  - name: deepset
+    enabled: true
+    
+  - name: katanemo
+    enabled: true
+    
+  - name: xgboost
+    enabled: true
+
+# System Settings
+settings:
+  # CPU for fair test
+  device: 'cpu'
+  
+  fp16: false
+
+logging:
+  # Include detailed model scores in response 
+  stats: true
