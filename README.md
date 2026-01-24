@@ -1,9 +1,9 @@
-# Promptforest
+# PromptForest
 
-Promptforest is a prompt injection detector ensemble focused on real-world latency and reliability.
+PromptForest is a prompt injection detector ensemble focused on real-world latency and reliability.
 
 ## Quick Start
-To use Promptforest, simply install the pip package and serve it at a port of your choice. 
+To use PromptForest, simply install the pip package and serve it at a port of your choice. It should automatically start downloading the default model ensemble.
 
 ```bash
 pip install promptforest

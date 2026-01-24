@@ -151,6 +151,9 @@ class EnsembleGuard:
         Initialize the EnsembleGuard.
         :param config: Dictionary containing configuration. If None, loads default/user config.
         """
+        # Check if models need to be downloaded
+        self._ensure_models_available()
+        
         if config is None:
             self.config = load_config()
         else:
@@ -159,6 +162,19 @@ class EnsembleGuard:
         self.models = []
         self._init_models()
         self.device_used = get_device(self.config['settings'].get('device', 'auto'))
+    
+    def _ensure_models_available(self):
+        """Check if models are available, download if needed."""
+        from .config import MODELS_DIR
+        
+        # Check if models directory exists and has content
+        if MODELS_DIR.exists() and any(MODELS_DIR.iterdir()):
+            return
+        
+        # Models not found, download them
+        print("Models not found. Downloading...")
+        from .download import download_all
+        download_all()
 
     def _init_models(self):
         settings = self.config.get('settings', {})

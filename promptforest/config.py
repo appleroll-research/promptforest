@@ -6,14 +6,14 @@ from pathlib import Path
 PACKAGE_DIR = os.path.dirname(os.path.abspath(__file__))
 XGB_MODEL_PATH = os.path.join(PACKAGE_DIR, 'xgboost', 'xgb_model.pkl')
 
-# Internal Models (packaged with the library)
-MODELS_DIR = Path(PACKAGE_DIR) / "tier_1" / "models_ensemble"
+# User data paths (for models)
+USER_DATA_DIR = Path.home() / ".promptforest"
+MODELS_DIR = USER_DATA_DIR / "models"
 
 DEFAULT_CONFIG = {
     "models": [
         {"name": "llama_guard", "path": "llama_guard", "type": "hf", "enabled": True},
         {"name": "protectai", "path": "protectai_deberta", "type": "hf", "enabled": True},
-        {"name": "testsavantai", "path": "testsavantai_defender", "type": "hf", "enabled": True},
         {"name": "deepset", "path": "deepset_deberta", "type": "hf", "enabled": True},
         {"name": "katanemo", "path": "katanemo_arch", "type": "hf", "enabled": True},
         {"name": "xgboost", "type": "xgboost", "enabled": True}

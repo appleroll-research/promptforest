@@ -1,2 +1,3 @@
 include promptforest/xgboost/*.pkl
 include promptforest/xgboost/*.csv
+exclude promptforest/tier_1/models_ensemble/*
