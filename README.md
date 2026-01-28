@@ -11,24 +11,43 @@ This discrepancy score enables downstream workflows such as:
 - Adaptive throttling or alerting in production systems  
 - Continuous monitoring and model improvement  
 
+## Statistics
+**E2E Request Latency** \
+Average Case: 100ms \
+Worst Case: 200ms
+
+PromptForest was evaluated against the SOTA model Qualifire Sentinel model (v2).
+
+| Metric                           | PromptForest | Sentinel v2 |
+| -------------------------------- | ------------ | ----------- |
+| Accuracy                         | 0.802        | 0.982       |
+| Avg Confidence on Wrong Answers  | 0.643        | 0.858       |
+| Expected Calibration Error (ECE) | 0.060        | 0.202       |
+| Approximate Model Size           | ~250M params  | 600M params |
+
+
+### Key Insights
+
+- Calibrated uncertainty: PromptForest is less confident on wrong predictions than Sentinel, resulting in a much lower ECE.
+
+- Parameter efficiency: Achieves competitive reliability with <50% of the parameters.
+
+- Interpretability: Confidence scores can be used to flag uncertain predictions for human review.
+
+Interpretation:
+While Sentinel has higher raw accuracy, PromptForest provides better-calibrated confidence. For systems where overconfidence on wrong answers is risky, PromptForest can reduce the chance of critical errors despite being smaller and faster. 
+
+Using Sentinel v2 as a baseline, and given that other models perform worse than Sentinel in published benchmarks, PromptForest is expected to offer more reliable and calibrated predictions than most alternatives.
+
 
 ## Supported Models
 
 | Provider      | Model Name                 |
 | ------------- | ----------------------------------------- |
-| **Meta**      | Llama Prompt Guard 86M (Built with Llama) |
-| **ProtectAI** | DebertaV3 Prompt Injection Finetune       |
-| **Vijil**     | Vijil Dome Prompt Injection Detection     |
-| **Appleroll** | PromptForest-XGBoost                      |
-
-## Performance
-**Request Latency** \
-Best Case: 50ms \
-Worst Case: 200ms
-
-**Accuracy** \
-Preliminary results indicate ensemble performance is at least as good as any individual model. Extensive benchmarking is ongoing.
-
+| **Meta**      | [Llama Prompt Guard 86M](https://huggingface.co/meta-llama/Prompt-Guard-86M) (Built with Llama) |
+| **ProtectAI** | [DebertaV3 Prompt Injection Finetune](https://huggingface.co/protectai/deberta-v3-base-prompt-injection-v2)       |
+| **Vijil**     | [Vijil Dome Prompt Injection Detection](https://huggingface.co/vijil/vijil_dome_prompt_injection_detection)     |
+| **Appleroll** | [PromptForest-XGB](appleroll/promptforest-xgb)                      |
 
 ## Quick Start
 To use PromptForest, simply install the pip package and serve it at a port of your choice. It should automatically start downloading the default model ensemble.

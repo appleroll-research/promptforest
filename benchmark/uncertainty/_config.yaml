@@ -1,0 +1,15 @@
+# Config for uncertainty benchmark
+models:
+  - name: llama_guard
+    enabled: true
+  - name: protectai
+    enabled: true
+  - name: vijil
+    enabled: true
+  - name: xgboost
+    enabled: true
+settings:
+  device: 'mps'
+  fp16: false
+logging:
+  stats: true
