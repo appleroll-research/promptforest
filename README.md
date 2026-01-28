@@ -1,4 +1,5 @@
 # PromptForest - Fast and Reliable Injection Detector Ensemble
+**📖 TRY IT OUT ON A NOTEBOOK [HERE](https://colab.research.google.com/drive/1EW49Qx1ZlaAYchqplDIVk2FJVzCqOs6B?usp=sharing)!**
 
 PromptForest is a prompt injection detector ensemble focused on real-world latency and reliability.
 
