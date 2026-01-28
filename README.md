@@ -18,8 +18,7 @@ This discrepancy score enables downstream workflows such as:
 | ------------- | ----------------------------------------- |
 | **Meta**      | Llama Prompt Guard 86M (Built with Llama) |
 | **ProtectAI** | DebertaV3 Prompt Injection Finetune       |
-| **Deepset**   | DebertaV3-base Injection Finetune         |
-| **Katanemo**  | Arch-Guard                                |
+| **Vijil**     | Vijil Dome Prompt Injection Detection     |
 | **Appleroll** | PromptForest-XGBoost                      |
 
 ## Performance

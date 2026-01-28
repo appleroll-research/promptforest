@@ -68,7 +68,8 @@ class HFModel(ModelInference):
         id2label = self.model.config.id2label
         found = False
         for idx, label in id2label.items():
-            if any(kw in label.lower() for kw in MALICIOUS_KEYWORDS):
+            # Check if label is string before calling lower()
+            if isinstance(label, str) and any(kw in label.lower() for kw in MALICIOUS_KEYWORDS):
                 self.malicious_idx = idx
                 found = True
                 break
@@ -99,9 +100,11 @@ class HFModel(ModelInference):
 
 
 class XGBoostModel(ModelInference):
-    def __init__(self, settings):
+    def __init__(self, settings, config=None):
         self.name = "xgboost_custom"
         self.settings = settings
+        self.config = config or {}
+        self.threshold = self.config.get('threshold', 0.5)
         self.model = None
         self.embedder = None
         
@@ -140,7 +143,18 @@ class XGBoostModel(ModelInference):
         try:
             emb = self.embedder.encode([prompt])
             prob = self.model.predict_proba(emb)[0][1]
-            return float(prob)
+            prob = float(prob)
+
+            # Apply threshold adjustment if a custom threshold is set
+            if self.threshold != 0.5:
+                if prob < self.threshold:
+                    # Map [0, threshold) -> [0, 0.5)
+                    prob = 0.5 * (prob / self.threshold)
+                else:
+                    # Map [threshold, 1.0] -> [0.5, 1.0]
+                    prob = 0.5 + 0.5 * (prob - self.threshold) / (1.0 - self.threshold)
+                    
+            return prob
         except Exception:
             return 0.0
 
@@ -151,13 +165,13 @@ class EnsembleGuard:
         Initialize the EnsembleGuard.
         :param config: Dictionary containing configuration. If None, loads default/user config.
         """
-        # Check if models need to be downloaded
-        self._ensure_models_available()
-        
         if config is None:
             self.config = load_config()
         else:
             self.config = config
+            
+        # Check if models need to be downloaded
+        self._ensure_models_available()
             
         self.models = []
         self._init_models()
@@ -167,14 +181,27 @@ class EnsembleGuard:
         """Check if models are available, download if needed."""
         from .config import MODELS_DIR
         
-        # Check if models directory exists and has content
-        if MODELS_DIR.exists() and any(MODELS_DIR.iterdir()):
-            return
-        
-        # Models not found, download them
-        print("Models not found. Downloading...")
-        from .download import download_all
-        download_all()
+        missing = False
+        if not MODELS_DIR.exists():
+            missing = True
+        else:
+            # Check for each enabled HF model
+            for model_cfg in self.config.get('models', []):
+                if model_cfg.get('type') == 'hf' and model_cfg.get('enabled', True):
+                    path = MODELS_DIR / model_cfg['path']
+                    if not path.exists():
+                        missing = True
+                        break
+            
+            # Check for SentenceTransformer (needed for XGBoost)
+            st_path = MODELS_DIR / 'sentence_transformer'
+            if not st_path.exists():
+                missing = True
+
+        if missing:
+            print("Some models not found. Downloading required models...")
+            from .download import download_all
+            download_all()
 
     def _init_models(self):
         settings = self.config.get('settings', {})
@@ -189,7 +216,7 @@ class EnsembleGuard:
             if model_type == 'hf':
                 self.models.append(HFModel(model_cfg['name'], model_cfg['path'], settings))
             elif model_type == 'xgboost':
-                self.models.append(XGBoostModel(settings))
+                self.models.append(XGBoostModel(settings, model_cfg))
             else:
                 print(f"Unknown model type: {model_type}")
 

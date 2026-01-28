@@ -23,21 +23,42 @@ def main():
     print(f"[TASK] Training with {len(df)} samples and {X.shape[1]} features.")
 
     # Split data
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    X_temp, X_test, y_temp, y_test = train_test_split(
+        X, y, test_size=0.1, random_state=42, stratify=y
+    )
+
+    X_train, X_val, y_train, y_val = train_test_split(
+        X_temp, y_temp, test_size=0.1, random_state=42, stratify=y_temp
+    )
 
     # Initialize XGBoost
     # Using tree_method='hist' is generally faster for larger datasets
     model = xgb.XGBClassifier(
         objective='binary:logistic',
-        n_estimators=150,           # Slightly increased
-        learning_rate=0.1,
-        max_depth=6,                # Slightly deeper for complex embeddings
+        n_estimators=1000,
+        max_depth=5,
+        learning_rate=0.07,
+        subsample=0.8,
+        colsample_bytree=0.8,
+        gamma=0.1,
+        min_child_weight=10,
+        reg_alpha=0.01,
+        reg_lambda=1.5,
         use_label_encoder=False,
-        eval_metric='logloss'
+        eval_metric='logloss',
+        n_jobs=-1,
+        early_stopping_rounds=35,
     )
 
+
     print("[TASK] Training model...")
-    model.fit(X_train, y_train)
+    model.fit(
+        X_train,
+        y_train,
+        eval_set=[(X_val, y_val)],
+        verbose=True
+    )
+
 
     print("[TASK] Evaluating model...")
     y_pred = model.predict(X_test)
@@ -50,19 +71,6 @@ def main():
     print("\nConfusion Matrix:")
     print(confusion_matrix(y_test, y_pred))
 
-    # Feature Importance (Top 20)
-    print("\nTop 20 Feature Importances:")
-    importances = model.feature_importances_
-    features = X.columns
-    
-    # Create a DataFrame for sorting
-    feat_imp = pd.DataFrame({'feature': features, 'importance': importances})
-    feat_imp = feat_imp.sort_values('importance', ascending=False).head(20)
-    
-    for _, row in feat_imp.iterrows():
-        print(f"{row['feature']}: {row['importance']:.4f}")
-
-    # gets it stuck in a pickle
     joblib_path = os.path.join(os.path.dirname(__file__), 'xgb_model.pkl')
     joblib.dump(model, joblib_path)
     print(f"[INFO] Pickle model saved to {joblib_path}")

@@ -13,10 +13,9 @@ MODELS_DIR = USER_DATA_DIR / "models"
 DEFAULT_CONFIG = {
     "models": [
         {"name": "llama_guard", "path": "llama_guard", "type": "hf", "enabled": True},
-        {"name": "protectai", "path": "protectai_deberta", "type": "hf", "enabled": True},
-        {"name": "deepset", "path": "deepset_deberta", "type": "hf", "enabled": True},
-        {"name": "katanemo", "path": "katanemo_arch", "type": "hf", "enabled": True},
-        {"name": "xgboost", "type": "xgboost", "enabled": True}
+        {"name": "protectai", "path": "protectai", "type": "hf", "enabled": True},
+        {"name": "vijil", "path": "vijil_dome", "type": "hf", "enabled": True},
+        {"name": "xgboost", "type": "xgboost", "enabled": True, "threshold": 0.10}
     ],
     "settings": {
         "device": "auto",  # Options: auto, cuda, mps, cpu

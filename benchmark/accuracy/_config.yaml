@@ -6,11 +6,8 @@ models:
     
   - name: protectai
     enabled: true
-    
-  - name: deepset
-    enabled: true
-    
-  - name: katanemo
+
+  - name: vijil
     enabled: true
     
   - name: xgboost

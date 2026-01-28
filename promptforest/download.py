@@ -13,9 +13,8 @@ from .llama_guard_86m_downloader import download_llama_guard
 
 # Configuration
 MODELS = {
-    "protectai_deberta": "protectai/deberta-v3-base-prompt-injection",
-    "deepset_deberta": "deepset/deberta-v3-base-injection",
-    "katanemo_arch": "katanemo/Arch-Guard"
+    "protectai": "protectai/deberta-v3-base-prompt-injection-v2",
+    "vijil_dome": "vijil/vijil_dome_prompt_injection_detection"
 }
 
 EMBEDDING_MODEL_NAME = 'all-MiniLM-L6-v2'
@@ -31,15 +30,20 @@ def _download_hf_model(name, model_id):
     try:
         if save_path.exists():
             return
+        
+        # Special handling for Vijil (ModernBERT tokenizer issue)
+        tokenizer_id = model_id
+        if "vijil" in name or "vijil" in model_id:
+            tokenizer_id = "answerdotai/ModernBERT-base"
 
-        tokenizer = AutoTokenizer.from_pretrained(model_id)
+        tokenizer = AutoTokenizer.from_pretrained(tokenizer_id)
         model = AutoModelForSequenceClassification.from_pretrained(model_id)
         
         tokenizer.save_pretrained(save_path)
         model.save_pretrained(save_path)
         
     except Exception as e:
-        print("Failed to download a model!")
+        print(f"Failed to download {model_id}: {e}")
 
 def _download_sentence_transformer():
     """Download and save the SentenceTransformer model."""

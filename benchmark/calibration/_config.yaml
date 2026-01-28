@@ -1,4 +1,4 @@
-# Config for latency benchmark
+# Config for calibration benchmark
 models:
   # Enable or disable specific models
   - name: llama_guard
@@ -15,8 +15,8 @@ models:
 
 # System Settings
 settings:
-  # CPU for fair test
-  device: 'cpu'
+  # Device: 'auto' (default), 'cuda', 'mps', or 'cpu'
+  device: 'mps'
   
   fp16: false
 
