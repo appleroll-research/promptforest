@@ -1,4 +1,7 @@
 # PromptForest - Fast and Reliable Injection Detector Ensemble
+![PyPI Downloads](https://img.shields.io/pypi/dm/promptforest)
+![Apache License](https://img.shields.io/badge/license-Apache%20License%202.0-blue)
+
 **📖 TRY IT OUT ON A NOTEBOOK [HERE](https://colab.research.google.com/drive/1EW49Qx1ZlaAYchqplDIVk2FJVzCqOs6B?usp=sharing)!**
 
 PromptForest is a prompt injection detector ensemble focused on real-world latency and reliability.
