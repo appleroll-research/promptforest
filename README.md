@@ -51,7 +51,7 @@ Using Sentinel v2 as a baseline, and given that other models perform worse than 
 | **Meta**      | [Llama Prompt Guard 86M](https://huggingface.co/meta-llama/Prompt-Guard-86M) (Built with Llama) |
 | **ProtectAI** | [DebertaV3 Prompt Injection Finetune](https://huggingface.co/protectai/deberta-v3-base-prompt-injection-v2)       |
 | **Vijil**     | [Vijil Dome Prompt Injection Detection](https://huggingface.co/vijil/vijil_dome_prompt_injection_detection)     |
-| **Appleroll** | [PromptForest-XGB](appleroll/promptforest-xgb)                      |
+| **Appleroll** | [PromptForest-XGB](https://huggingface.co/appleroll/promptforest-xgb)                      |
 
 ## Quick Start
 To use PromptForest, simply install the pip package and serve it at a port of your choice. It should automatically start downloading the default model ensemble.
