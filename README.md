@@ -15,19 +15,29 @@ This discrepancy score enables downstream workflows such as:
 - Adaptive throttling or alerting in production systems  
 - Continuous monitoring and model improvement  
 
+## Quick Start
+To use PromptForest, simply install the pip package and serve it at a port of your choice. It should automatically start downloading the default model ensemble.
+
+Gated models are downloaded through our own [ensemble github respository](https://github.com/appleroll-research/promptforest-model-ensemble) and are released in accordance to their terms and conditions.
+
+```bash
+pip install promptforest
+promptforest serve --port 8000 
+```
+
 ## Statistics
 **E2E Request Latency** \
 Average Case: 100ms \
 Worst Case: 200ms
 
-PromptForest was evaluated against the SOTA model Qualifire Sentinel model (v2).
+PromptForest was evaluated against the models from Deepset, ProtectAI, Meta and Vijil, with Promptforest and the SOTA model Qualifire's Sentinel V2 performing the best in terms of reliability.
 
 | Metric                           | PromptForest | Sentinel v2 |
 | -------------------------------- | ------------ | ----------- |
 | Accuracy                         | 0.802        | 0.982       |
-| Avg Confidence on Wrong Answers  | 0.643        | 0.858       |
-| Expected Calibration Error (ECE) | 0.060        | 0.202       |
-| Approximate Model Size           | ~250M params  | 600M params |
+| Avg Confidence on Wrong Answers  | 0.659        | 0.782       |
+| Expected Calibration Error (ECE) | 0.049        | 0.060       |
+| Approximate Model Size           | ~300M params  | ~600M params |
 
 
 ### Key Insights
@@ -53,15 +63,8 @@ Using Sentinel v2 as a baseline, and given that other models perform worse than 
 | **Vijil**     | [Vijil Dome Prompt Injection Detection](https://huggingface.co/vijil/vijil_dome_prompt_injection_detection)     |
 | **Appleroll** | [PromptForest-XGB](https://huggingface.co/appleroll/promptforest-xgb)                      |
 
-## Quick Start
-To use PromptForest, simply install the pip package and serve it at a port of your choice. It should automatically start downloading the default model ensemble.
-
-Gated models are downloaded through our own [ensemble github respository](https://github.com/appleroll-research/promptforest-model-ensemble) and are released in accordance to their terms and conditions.
-
-```bash
-pip install promptforest
-promptforest serve --port 8000 
-```
+## Current Goals
+This project is actively being updated. Our current focus is on implementing weights on individual models to improve accuracy, as well as retraining the XGBoost model with an updated corpus.
 
 ## Disclaimer & Limitations
 
