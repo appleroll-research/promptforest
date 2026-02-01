@@ -101,9 +101,9 @@ class HFModel(ModelInference):
 
 class XGBoostModel(ModelInference):
     def __init__(self, settings, config=None):
-        self.name = "xgboost_custom"
-        self.settings = settings
         self.config = config or {}
+        self.name = self.config.get("name", "xgboost")
+        self.settings = settings
         self.threshold = self.config.get('threshold', 0.5)
         self.model = None
         self.embedder = None
@@ -241,7 +241,25 @@ class EnsembleGuard:
         if not probs:
              return {"error": "No models loaded"}
 
+        # # Calculate weighted average
+        # weighted_sum = 0.0
+        # total_weight = 0.0
+        # model_configs = {m['name']: m for m in self.config.get('models', [])}
+        
+        # for model_name, prob in results.items():
+        #     model_cfg = model_configs.get(model_name, {})
+        #     # Default weight is 1.0 if not specified
+        #     weight = float(model_cfg.get('accuracy_weight', 1.0))
+        #     weighted_sum += prob * weight
+        #     total_weight += weight
+            
+        # if total_weight > 0:
+        #     avg_prob = weighted_sum / total_weight
+        # else:
+        #     avg_prob = np.mean(probs)
+
         avg_prob = np.mean(probs)
+
         max_prob = np.max(probs)
         
         # Uncertainty

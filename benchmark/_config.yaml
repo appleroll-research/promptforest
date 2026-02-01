@@ -1,0 +1,25 @@
+# Example configuration file for PromptForest
+models:
+  - name: llama_guard
+    enabled: true
+    accuracy_weight: 0.6
+
+  - name: vijil
+    enabled: true
+    accuracy_weight: 1.0
+    
+  - name: xgboost
+    enabled: true
+    accuracy_weight: 0.5
+    threshold: 0.1
+
+# System Settings
+settings:
+  # Device: 'auto' (default), 'cuda', 'mps', or 'cpu'
+  device: 'mps'
+  
+  fp16: false
+
+logging:
+  # Include detailed model scores in response 
+  stats: true

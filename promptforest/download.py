@@ -13,7 +13,7 @@ from .llama_guard_86m_downloader import download_llama_guard
 
 # Configuration
 MODELS = {
-    "protectai": "protectai/deberta-v3-base-prompt-injection-v2",
+    # "protectai": "protectai/deberta-v3-base-prompt-injection-v2",
     "vijil_dome": "vijil/vijil_dome_prompt_injection_detection"
 }
 

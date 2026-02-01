@@ -12,10 +12,9 @@ MODELS_DIR = USER_DATA_DIR / "models"
 
 DEFAULT_CONFIG = {
     "models": [
-        {"name": "llama_guard", "path": "llama_guard", "type": "hf", "enabled": True},
-        {"name": "protectai", "path": "protectai", "type": "hf", "enabled": True},
-        {"name": "vijil", "path": "vijil_dome", "type": "hf", "enabled": True},
-        {"name": "xgboost", "type": "xgboost", "enabled": True, "threshold": 0.10}
+        {"name": "llama_guard", "path": "llama_guard", "type": "hf", "enabled": True, "accuracy_weight": 1.0},
+        {"name": "vijil", "path": "vijil_dome", "type": "hf", "enabled": True, "accuracy_weight": 1.0},
+        {"name": "xgboost", "type": "xgboost", "enabled": True, "threshold": 0.10, "accuracy_weight": 1.0}
     ],
     "settings": {
         "device": "auto",  # Options: auto, cuda, mps, cpu
