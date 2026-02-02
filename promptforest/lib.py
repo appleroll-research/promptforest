@@ -241,22 +241,22 @@ class EnsembleGuard:
         if not probs:
              return {"error": "No models loaded"}
 
-        # # Calculate weighted average
-        # weighted_sum = 0.0
-        # total_weight = 0.0
-        # model_configs = {m['name']: m for m in self.config.get('models', [])}
+        # Calculate weighted average
+        weighted_sum = 0.0
+        total_weight = 0.0
+        model_configs = {m['name']: m for m in self.config.get('models', [])}
         
-        # for model_name, prob in results.items():
-        #     model_cfg = model_configs.get(model_name, {})
-        #     # Default weight is 1.0 if not specified
-        #     weight = float(model_cfg.get('accuracy_weight', 1.0))
-        #     weighted_sum += prob * weight
-        #     total_weight += weight
+        for model_name, prob in results.items():
+            model_cfg = model_configs.get(model_name, {})
+            # Default weight is 1.0 if not specified
+            weight = float(model_cfg.get('accuracy_weight', 1.0))
+            weighted_sum += prob * weight
+            total_weight += weight
             
-        # if total_weight > 0:
-        #     avg_prob = weighted_sum / total_weight
-        # else:
-        #     avg_prob = np.mean(probs)
+        if total_weight > 0:
+            w_avg_prob = weighted_sum / total_weight
+        else:
+            w_avg_prob = np.mean(probs)
 
         avg_prob = np.mean(probs)
 
@@ -266,7 +266,7 @@ class EnsembleGuard:
         std_dev = np.std(probs)
         uncertainty_score = min(std_dev * 2, 1.0)
         
-        is_malicious = avg_prob > 0.5
+        is_malicious = w_avg_prob > 0.5
         
         response = {
             "is_malicious": bool(is_malicious),
