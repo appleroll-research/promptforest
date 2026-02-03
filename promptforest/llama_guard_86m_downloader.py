@@ -1,6 +1,7 @@
 """
 Script to download Llama Guard 2 86M from custom GitHub releases.
-Downloads files in parallel for speed.
+
+@todo: This should be legal, but as soon as anyone in Meta hints us to remove this, we will comply immediately.
 """
 
 import os
@@ -42,6 +43,7 @@ def download_llama_guard():
     
     # Check if all files exist
     if save_dir.exists() and all((save_dir / f).exists() for f in FILES_TO_DOWNLOAD):
+        # All files already exist, we don't need to download them again
         return
 
     save_dir.mkdir(parents=True, exist_ok=True)

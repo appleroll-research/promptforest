@@ -27,6 +27,10 @@ def predict(prompts):
     return list(zip(preds, confidences))
 
 if __name__ == "__main__":
+    """
+    The following code/prompts have been AI generated.
+    @todo: Replace with real tests.
+    """
     test_prompts = [
         # --- Normal / benign prompts ---
         "Summarise the causes of the French Revolution in simple terms.",

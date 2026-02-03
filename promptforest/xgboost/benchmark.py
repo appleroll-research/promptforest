@@ -1,3 +1,9 @@
+"""
+WARNING: This file is AI-Generated and deprecated.
+@todo: either replace this with a new XGBoost-focused benchmark or delete it.
+
+We will keep this for now as it still gives a decently accurate reflection of the XGBoost model's performance.
+"""
 import pickle
 from sentence_transformers import SentenceTransformer
 import torch

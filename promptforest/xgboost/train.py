@@ -31,8 +31,7 @@ def main():
         X_temp, y_temp, test_size=0.1, random_state=42, stratify=y_temp
     )
 
-    # Initialize XGBoost
-    # Using tree_method='hist' is generally faster for larger datasets
+    # 'BOOST IT!!!
     model = xgb.XGBClassifier(
         objective='binary:logistic',
         n_estimators=1000,

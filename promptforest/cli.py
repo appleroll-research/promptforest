@@ -33,11 +33,11 @@ def main():
         run_server(port=args.port, config=cfg)
 
     elif args.command == "check":
-        from .lib import EnsembleGuard
+        from .lib import PFEnsemble
         cfg = get_user_config(args.config)
         try:
             print(f"Loading PromptForest...")
-            guard = EnsembleGuard(config=cfg)
+            guard = PFEnsemble(config=cfg)
             print(f"Device: {guard.device_used}")
             result = guard.check_prompt(args.prompt)
             print(json.dumps(result, indent=2))

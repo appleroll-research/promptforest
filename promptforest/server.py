@@ -1,5 +1,5 @@
 """
-Simple HTTP Server for PromptForest.
+Server module for PromptForest. Sets up an HTTP server to handle inference requests
 """
 
 import http.server
@@ -7,12 +7,12 @@ import socketserver
 import json
 import sys
 import time
-from .lib import EnsembleGuard
+from .lib import PFEnsemble
 
 PORT = 8000
 ensemble = None
 
-class GuardRequestHandler(http.server.BaseHTTPRequestHandler):
+class PFRequestHandler(http.server.BaseHTTPRequestHandler):
     def do_POST(self):
         """Handle POST requests for inference."""
         if self.path == '/analyze':
@@ -65,7 +65,7 @@ def run_server(port=8000, config=None):
     global ensemble
     print(f"Initializing PromptForest...")
     try:
-        ensemble = EnsembleGuard(config=config)
+        ensemble = PFEnsemble(config=config)
         print(f"Device: {ensemble.device_used}")
         print("Warming up...")
         ensemble.check_prompt("warmup")
@@ -77,7 +77,7 @@ def run_server(port=8000, config=None):
     print(f"\nListening on http://localhost:{port}")
     socketserver.TCPServer.allow_reuse_address = True
     
-    with ThreadedHTTPServer(("", port), GuardRequestHandler) as httpd:
+    with ThreadedHTTPServer(("", port), PFRequestHandler) as httpd:
         try:
             httpd.serve_forever()
         except KeyboardInterrupt:

@@ -29,7 +29,7 @@ def load_config(config_path=None):
     """
     Load configuration from a YAML file, merging with defaults.
     """
-    # Start with a deep copy of the default config structure
+    # Deep copy of the default config structure
     config = {
         "models": [m.copy() for m in DEFAULT_CONFIG["models"]],
         "settings": DEFAULT_CONFIG["settings"].copy(),
@@ -43,19 +43,17 @@ def load_config(config_path=None):
                 with open(path, 'r') as f:
                     user_config = yaml.safe_load(f)
                     if user_config:
-                        # 1. Merge Settings
+                        # Merge config
+                        # @todo: is there a smarter way to merge this?
                         if "settings" in user_config:
                             config["settings"].update(user_config["settings"])
                             
-                        # 2. Merge Logging
                         if "logging" in user_config:
                             config["logging"].update(user_config["logging"])
                             
-                        # 3. Merge Models (Smart Merge)
                         if "models" in user_config:
                             user_models = user_config["models"]
                             if isinstance(user_models, list):
-                                # Convert current models to dict for easy lookup by name
                                 existing_model_map = {m["name"]: m for m in config["models"]}
                                 
                                 for u_model in user_models:
