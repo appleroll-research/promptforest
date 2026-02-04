@@ -1,0 +1,20 @@
+# Load all models
+models:
+  - name: llama_guard
+    enabled: true
+
+  - name: vijil
+    enabled: true
+    
+  - name: xgboost
+    enabled: true
+
+# System Settings
+settings:
+  # Device: 'auto' (default), 'cuda', 'mps', or 'cpu'
+  device: 'cpu'
+  
+  fp16: false
+
+logging:
+  stats: true
