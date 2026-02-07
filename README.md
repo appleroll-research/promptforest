@@ -53,7 +53,7 @@ We compared the end-to-end inference time (including tokenization) on a standard
 
 | System | Mean Latency (ms) | P95 Latency (ms)
 | :--- | :---: | :---: |
-| **Qualifire Sentinel v2** | *~225.77ms~* | *~430.31ms* |
+| **Qualifire Sentinel v2** | *~225.77ms* | *~430.31ms* |
 | **PromptForest** | **~141.07ms** | **~257.19ms** |
 
 

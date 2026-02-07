@@ -1,5 +1,5 @@
 """
-Script to download and save ensemble models locally.
+Download and save ensemble models locally.
 """
 
 import os
