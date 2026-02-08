@@ -19,7 +19,15 @@ cd promptforest
 
 4. Commit your changes with a clear message:
 
-```git commit -m "Add feature X"```
+```git commit -m "[tag] Add feature X"```
+
+You must add a tag at the front of your commit message. Please refer to the table below:
+| Tag | Meaning |
+| :--- | :---: |
+| [improv] | Improvement of existing feature 
+| [bug] | Fixed a bug
+| [docs] | Documentation update
+| [feat] | Adding a new feature
 
 5. Push your branch to your fork:
 

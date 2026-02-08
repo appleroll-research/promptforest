@@ -5,6 +5,7 @@ import os
 from .config import load_config
 
 def main():
+
     parser = argparse.ArgumentParser(description="PromptForest: Ensemble Prompt Injection Detection")
     subparsers = parser.add_subparsers(dest="command")
 
@@ -49,6 +50,3 @@ def main():
 
     else:
         parser.print_help()
-
-if __name__ == "__main__":
-    main()

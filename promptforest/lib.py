@@ -3,19 +3,13 @@ Ensemble Inference Library for PromptForest.
 """
 
 import os
-import sys
 import time
-import joblib
 import torch
 import numpy as np
-import logging
 from concurrent.futures import ThreadPoolExecutor
-from transformers import AutoTokenizer, AutoModelForSequenceClassification, logging as transformers_logging
-from sentence_transformers import SentenceTransformer
 from .config import MODELS_DIR, XGB_MODEL_PATH, load_config
 
 # Suppress Warnings
-transformers_logging.set_verbosity_error()
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 MALICIOUS_KEYWORDS = ['unsafe', 'malicious', 'injection', 'attack', 'jailbreak']
@@ -44,6 +38,8 @@ class HFModel(ModelInference):
         self._load()
 
     def _load(self):
+        from transformers import AutoTokenizer, AutoModelForSequenceClassification, logging as transformers_logging
+        transformers_logging.set_verbosity_error()
         if not self.path.exists():
              print(f"Model path not found: {self.path}")
              return
@@ -114,8 +110,10 @@ class XGBoostModel(ModelInference):
         self._load()
 
     def _load(self):
+        from sentence_transformers import SentenceTransformer
         try:
             if os.path.exists(XGB_MODEL_PATH):
+                import joblib
                 self.model = joblib.load(XGB_MODEL_PATH)
             
             ST_PATH = MODELS_DIR / 'sentence_transformer'
