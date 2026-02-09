@@ -6,7 +6,7 @@ long_description = (this_directory / "README.md").read_text(encoding="utf-8")
 
 setup(
     name="promptforest",
-    version="0.7.0",
+    version="0.7.5",
     description="Ensemble Prompt Injection Detection",
     packages=find_packages(),
     install_requires=[
