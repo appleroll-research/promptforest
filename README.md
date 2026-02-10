@@ -28,6 +28,22 @@ PromptForest utilizes a voting ensemble of three distinct lightweight models:
 
 Predictions are aggregated using a weighted voting mechanism to form a sophisticated consensus mechanism that outperforms individual voters in calibration metrics.
 
+### 2.1 Voting Method
+We have found that using a Weighted Soft Voting approach is the most simple and effective voting method, ensuring that accurate models have more influence on the final result without drowning out weaker model's voices. We implement Soft Weighted Voting ($S_{w}$) as follows
+$$S_{w} = \frac{\sum_{i=1}^{n} (w_i \cdot p_i)}{\sum_{i=1}^{n} w_i}$$
+
+### 2.2 Decision Threshold
+PromptForest currently uses a simple decision threshold, which flags prompts as malicious when the weighted score exceeds the 0.5 threshold, which can be tuned:
+$$\text{is\_malicious} = 
+\begin{cases} 
+\text{True} & \text{if } S_{w} > 0.5 \\
+\text{False} & \text{if } S_{w} \leq 0.5 
+\end{cases}$$
+
+### 2.3 Uncertainty Scoring
+We measure model "uncertainty" using the Standard Deviation (σ) of all model predictions, scaled and capped at 1.0:
+$$U = \min(2\sigma, 1.0)$$
+
 ## 3. Performance Evaluation
 
 We benchmarked PromptForest against a wide range of detection models, with the SOTA model `Qualifire Sentinel v2` being the best performing competitor model. You can view our benchmarking code in the `benchmark` folder.
