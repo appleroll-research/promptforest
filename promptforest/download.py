@@ -4,17 +4,16 @@ Download and save ensemble models locally.
 
 import os
 import sys
-import threading
 from pathlib import Path
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from sentence_transformers import SentenceTransformer
 from .config import MODELS_DIR
-from .llama_guard_86m_downloader import download_llama_guard
 
 MODELS = {
     # We are currently not using ProtectAI as it actively degrades ensemble performance while being 86M params
     # "protectai": "protectai/deberta-v3-base-prompt-injection-v2",
-    "vijil_dome": "vijil/vijil_dome_prompt_injection_detection"
+    "vijil_dome": "vijil/vijil_dome_prompt_injection_detection",
+    "llama_guard": "Appleroll-Research/PromptForest-Llama-Prompt-Guard-2-86M"
 }
 
 EMBEDDING_MODEL_NAME = 'all-MiniLM-L6-v2'
@@ -66,19 +65,12 @@ def download_all():
     print(f"Downloading models to {MODELS_DIR}...")
     _ensure_dir(MODELS_DIR)
     
-    # Download Llama Guard first as it takes the longest
-    llama_guard_thread = threading.Thread(target=download_llama_guard, daemon=False)
-    llama_guard_thread.start()
-    
     # Download each model from Hugging Face
     for name, model_id in MODELS.items():
         _download_hf_model(name, model_id)
         
     # Download Embedding Model for XGBoost
     _download_sentence_transformer()
-    
-    # Wait for Llama Guard to complete
-    llama_guard_thread.join()
     
     print("All models downloaded.")
 
