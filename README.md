@@ -4,6 +4,8 @@
 [![Apache License](https://img.shields.io/badge/license-Apache%20License%202.0-blue)](LICENSE)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1EW49Qx1ZlaAYchqplDIVk2FJVzCqOs6B?usp=sharing)
 
+**This project is actively in development! If you have any questions or want to help out, you can reach out via [issues](https://github.com/appleroll-research/promptforest/issues) or [discussions](https://github.com/appleroll-research/promptforest/discussions), or send me an [email](mailto:ethanzhangyixuan@gmail.com).**
+
 **PromptForest** is an ensemble-based prompt injection detection system designed for high-throughput production environments. By aggregating predictions from multiple lightweight expert models, it achieves best-in-class calibration and competitive accuracy while maintaining significantly lower latency than comparable monolithic models.
 
 ---
